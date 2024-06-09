@@ -1,5 +1,5 @@
 
-> Открыть эту страницу в [https://sliezz.github.io/tetris/](https://sliezz.github.io/dottris/)
+> Открыть эту страницу в [https://sliezz.github.io/dottris/](https://sliezz.github.io/dottris/)
 
 ## Использовать это расширение
 
