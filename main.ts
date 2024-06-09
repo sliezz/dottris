@@ -1,3 +1,12 @@
+function Game_Over () {
+    music.play(music.stringPlayable("C - C - C - C C5 ", 500), music.PlaybackMode.UntilDone)
+    game_over = 1
+    while (game_over) {
+        disable_buttons = 1
+        basic.showNumber(Points)
+        disable_buttons = 0
+    }
+}
 function Can_a_line_be_dropped (test_y: number) {
     for (let x = 0; x <= 4; x++) {
         if (!(led.point(x, test_y))) {
@@ -25,7 +34,7 @@ function Drop_a_line (line_y: number) {
 }
 input.onButtonPressed(Button.A, function () {
     if (game_over) {
-        New_game()
+        New_Game()
     } else if (disable_buttons) {
     	
     } else {
@@ -41,7 +50,7 @@ function Reset_Cursors_position () {
     cursor_Y = 0
     if (led.point(cursor_X, cursor_Y)) {
         if (!(game_over)) {
-            Game_over()
+            Game_Over()
         }
         return 0
     }
@@ -50,7 +59,7 @@ function Reset_Cursors_position () {
 }
 input.onButtonPressed(Button.B, function () {
     if (game_over) {
-        New_game()
+        New_Game()
     } else if (disable_buttons) {
     	
     } else {
@@ -61,42 +70,47 @@ input.onButtonPressed(Button.B, function () {
         }
     }
 })
-function Game_over () {
-    music.play(music.stringPlayable("C - C - C - C C5 ", 500), music.PlaybackMode.UntilDone)
-    game_over = 1
-    while (game_over) {
-        disable_buttons = 1
-        basic.showNumber(Points)
-        disable_buttons = 0
+input.onGesture(Gesture.Shake, function () {
+    if (!(game_over)) {
+        game_over = 1
+        basic.clearScreen()
+        while (Points < 10) {
+            Game_speed = Game_speed * 0.9
+            Points += 1
+        }
+        Display_cursor()
+        game_over = 1
     }
-}
-function Display_cursor () {
-    if (!(led.point(cursor_X, cursor_Y))) {
-        led.plotBrightness(cursor_X, cursor_Y, Cursors_lightness)
-    }
-}
-function New_game () {
+})
+function New_Game () {
     basic.clearScreen()
     Game_speed = 700
     Points = 0
     Reset_Cursors_position()
     game_over = 0
 }
+function Display_cursor () {
+    if (!(led.point(cursor_X, cursor_Y))) {
+        led.plotBrightness(cursor_X, cursor_Y, Cursors_lightness)
+    }
+}
 let cursor_Y1 = 0
 let cursor_Y = 0
 let cursor_X = 0
-let game_over = 0
-let Points = 0
 let Game_speed = 0
 let y1 = 0
 let y = 0
+let Points = 0
+let game_over = 0
 let disable_buttons = 0
 let Dot_lightness = 0
 let Cursors_lightness = 0
 Cursors_lightness = 80
 Dot_lightness = 10
 disable_buttons = 0
-New_game()
+led.setBrightness(80)
+led.setDisplayMode(DisplayMode.BlackAndWhite)
+New_Game()
 basic.forever(function () {
     basic.pause(Game_speed)
     if (!(game_over)) {
