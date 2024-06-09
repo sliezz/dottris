@@ -57,6 +57,19 @@ function Reset_Cursors_position () {
     Display_cursor()
     return 1
 }
+input.onGesture(Gesture.ScreenDown, function () {
+    if (!(game_over) && Points < 10) {
+        game_over = 1
+        basic.clearScreen()
+        while (Points < 10) {
+            Game_speed = Game_speed * 0.9
+            Points += 1
+        }
+        Reset_Cursors_position()
+        Display_cursor()
+        game_over = 0
+    }
+})
 input.onButtonPressed(Button.B, function () {
     if (game_over) {
         New_Game()
@@ -68,18 +81,6 @@ input.onButtonPressed(Button.B, function () {
             cursor_X += 1
             Display_cursor()
         }
-    }
-})
-input.onGesture(Gesture.Shake, function () {
-    if (!(game_over)) {
-        game_over = 1
-        basic.clearScreen()
-        while (Points < 10) {
-            Game_speed = Game_speed * 0.9
-            Points += 1
-        }
-        Display_cursor()
-        game_over = 1
     }
 })
 function New_Game () {
